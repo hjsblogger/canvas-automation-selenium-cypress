@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Position Example</title>
+</head>
+<body>
+
+<canvas id="myCanvas" width="400" height="200" style="border:1px solid #000000;"></canvas>
+
+<script>
+  // Function to calculate the top position of the canvas
+  function calculateCanvasTop() {
+    const canvas = document.getElementById("myCanvas");
+    const rect = canvas.getBoundingClientRect();
+    
+    // rect.top gives the distance from the top of the viewport
+    console.log("Canvas top position relative to the viewport: ", rect.top);
+    
+    return rect.top;
+  }
+
+  // Calculate the top position
+  const canvasTop = calculateCanvasTop();
+</script>
+
+</body>
+</html>

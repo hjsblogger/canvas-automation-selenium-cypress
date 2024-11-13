@@ -1,0 +1,33 @@
+{
+   "lambdatest_auth": {
+      "username": "${LT_USERNAME}",
+      "access_key": "${LT_ACCESS_KEY}"
+   },
+   "browsers": [
+      {
+         "browser": "Chrome",
+         "platform": "macOS Big sur",
+         "versions": [
+            "latest"
+         ]
+      }
+   ],
+   "run_settings": {
+      "reporter_config_file": "",
+      "build_name": "[Build] Handling Canvas Elements",
+      "project-name": "[Project] Handling Canvas Elements",
+      "parallels": 2,
+      "specs": "./cypress/e2e/*.cy.js",
+      "ignore_files": "",
+      "network": false,
+      "headless": false,
+      "npm_dependencies": {
+         "cypress": "^13.3.0",
+         "@faker-js/faker": "^8.1.0"
+      }
+   },
+   "tunnel_settings": {
+      "tunnel": false,
+      "tunnel_name": null
+   }
+}

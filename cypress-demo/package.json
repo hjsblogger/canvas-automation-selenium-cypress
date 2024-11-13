@@ -1,0 +1,26 @@
+{
+  "name": "canvas-automation-cypress",
+  "version": "1.0.0",
+  "description": "Handling Canvas Elements in Cypress",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:chrome": "cypress run --browser=chrome"
+  },
+  "keywords": [
+    "cypress",
+    "test",
+    "automation",
+    "web",
+    "automation",
+    "testing"
+  ],
+  "author": "Himanshu Jagdish Sheth",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
