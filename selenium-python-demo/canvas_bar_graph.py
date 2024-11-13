@@ -27,13 +27,16 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         lt_options["username"] = username
         lt_options["accessKey"] = access_key
         lt_options["video"] = True
-        lt_options["resolution"] = "1440x819"
+        lt_options["resolution"] = "1920x1080"
         lt_options["network"] = True
         lt_options["build"] = "[Canvas] Automatic data extraction from bar graphs"
-        lt_options["name"] = "[Canvas] Automatic data extraction from bar graphs"
+        lt_options["project"] = "[Canvas] Project: Automatic data extraction from bar graphs"
+        lt_options["name"] = "[Canvas] Name: Automatic data extraction from bar graphs"
         lt_options["visual"] = True
         lt_options["w3c"] = True
         lt_options["plugin"] = "python-python"
+
+        options.set_capability('LT:Options', lt_options)
 
         # Initialize the remote WebDriver session
         # driver = webdriver.Chrome()
@@ -44,7 +47,7 @@ class TestCanvasGraphAutomation(unittest.TestCase):
             options=options,
         )
         self.driver.set_page_load_timeout(iWaitTime)
-        self.driver.set_window_size(1440, 819)
+        self.driver.set_window_size(1920, 1080)
         self.driver.maximize_window()
         self.driver.get(home_page_url_1)
 
