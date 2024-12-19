@@ -118,7 +118,7 @@ describe('Bug Smasher Canvas Automation', () => {
       let canvasDisplayedHeight = canvasRect.height;
 
       /* @hjsblogger */
-      let canvasActualWidth = 1920;
+      let canvasActualWidth = (canvasDisplayedWidth * 2);
       let scaleFactor = canvasDisplayedWidth / (canvasActualWidth);
 
       let canvasCenterX = (canvasDisplayedWidth / 2);
