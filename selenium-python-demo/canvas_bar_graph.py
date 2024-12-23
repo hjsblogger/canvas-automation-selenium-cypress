@@ -58,31 +58,32 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         # time.sleep(iWaitTime)
 
     def test_canvas_automation(self):
+        driver = self.driver
         # Close the Chat button so that it does not hinder with the main page content
-        try:
-            # Switch to iFrame
-            driver = self.driver
-            iframe_elem = WebDriverWait(driver, iFrameWaitTime).until(
-                EC.presence_of_element_located((By.ID, "hubspot-conversations-iframe"))
-            )
+        # try:
+        #     # Switch to iFrame
+        #     driver = self.driver
+        #     iframe_elem = WebDriverWait(driver, iFrameWaitTime).until(
+        #         EC.presence_of_element_located((By.ID, "hubspot-conversations-iframe"))
+        #     )
 
-            if iframe_elem:
-                # Close the chat window
-                driver.switch_to.frame(iframe_elem) 
-                button_elem = WebDriverWait(driver, iFrameWaitTime).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR,
-                        "body > div.widget > div:nth-child(1) > div > div > button"))
-                )
-                print("Button Element found")
-                button_elem.click()
-                time.sleep(iSmallWaitTime)
-        except Exception as e:
-            print("Button Element not found:", e)
-            status = "failed"
-            self.update_lambdatest_status(status=status)
+        #     if iframe_elem:
+        #         # Close the chat window
+        #         driver.switch_to.frame(iframe_elem) 
+        #         button_elem = WebDriverWait(driver, iFrameWaitTime).until(
+        #             EC.presence_of_element_located((By.CSS_SELECTOR,
+        #                 "body > div.widget > div:nth-child(1) > div > div > button"))
+        #         )
+        #         print("Button Element found")
+        #         button_elem.click()
+        #         time.sleep(iSmallWaitTime)
+        # except Exception as e:
+        #     print("Button Element not found:", e)
+        #     status = "failed"
+        #     self.update_lambdatest_status(status=status)
 
-        # Switch back to the main document (parent frame)
-        driver.switch_to.default_content()
+        # # Switch back to the main document (parent frame)
+        # driver.switch_to.default_content()
 
         # Scroll to the end and back so that the dynamic content is loaded on the page
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -159,7 +160,7 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         x_offset_coord = common_offset_value
         y_offset_coord = common_offset_value
 
-        ############################ January - August #########################################
+        ############################ January - August ##########################################
         for co_ord_value in range((num_clicks * x_offset_coord), 0, (-x_offset_coord)):
             x_click_coord = start_x_coord - co_ord_value
             y_click_coord = start_y_coord - y_offset_coord
@@ -179,28 +180,28 @@ class TestCanvasGraphAutomation(unittest.TestCase):
 
             time.sleep(2)
 
-        ############################ September #########################################
-        x_click_coord = start_x_coord
-        y_click_coord = start_y_coord - y_offset_coord
+        # ############################ September #################################################
+        # x_click_coord = start_x_coord
+        # y_click_coord = start_y_coord - y_offset_coord
 
-        actions.move_to_element_with_offset(canvas_elem, x_click_coord,
-                y_click_coord).click().perform()
+        # actions.move_to_element_with_offset(canvas_elem, x_click_coord,
+        #         y_click_coord).click().perform()
 
-        time.sleep(2)
-        show_click_coordinates(self.driver, canvas_elem, x = x_click_coord,
-            y = y_click_coord)
+        # time.sleep(2)
+        # show_click_coordinates(self.driver, canvas_elem, x = x_click_coord,
+        #     y = y_click_coord)
 
-        tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
-        if (tooltip_elem[1]):
-            print(tooltip_elem[1].text)
-        time.sleep(2)
+        # tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
+        # if (tooltip_elem[1]):
+        #     print(tooltip_elem[1].text)
+        # time.sleep(2)
 
-        ############################ October - December #########################################
+        ############################ September - November #########################################
         # start_x_coord = 245
         x_offset_coord = 100
         y_offset_coord = 100
         # x_end_coord = 400
-        num_clicks = 5
+        num_clicks = 4
 
         for cnt in range(1, num_clicks):
             # Calculate new x and y offsets for this iteration
@@ -219,6 +220,22 @@ class TestCanvasGraphAutomation(unittest.TestCase):
             tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
             if (tooltip_elem[1]):
                 print(tooltip_elem[1].text)
+
+        ############################ December #########################################
+        # Move to the calculated offset, click, and perform the action
+        actions.move_to_element_with_offset(canvas_elem, (canvas_center_x - 100), (canvas_center_y - 100)) \
+                .click().perform()
+        
+        time.sleep(2)
+
+        # Call your function to show click coordinates
+        show_click_coordinates(self.driver, canvas_elem, x = (canvas_center_x - 100), y = (canvas_center_y - 100))
+
+        tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
+        if (tooltip_elem[1]):
+            print(tooltip_elem[1].text)
+
+        time.sleep(2)
 
         status = "passed"
 
