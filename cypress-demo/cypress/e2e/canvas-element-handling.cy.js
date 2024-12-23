@@ -1,11 +1,12 @@
 /* Customized command to show the click on the element */
+/* This helper was
 Cypress.Commands.add('showClickCoordinates', (element, x, y) => {
   cy.wrap(element).then(($el) => {
-    // Reference - https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+    /* Reference - https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect */
     const rect = $el[0].getBoundingClientRect();
 
     cy.window().then((win) => {
-      // Create a new dot element
+      /* Create a new dot element*/
       const dot = win.document.createElement('div');
       dot.style.position = 'absolute';
       dot.style.width = '10px';
@@ -14,14 +15,14 @@ Cypress.Commands.add('showClickCoordinates', (element, x, y) => {
       dot.style.borderRadius = '50%';
       dot.style.zIndex = '9999';
 
-      // Adjust the top and left coordinates to be relative to the element
+      /* Adjust the top and left coordinates to be relative to the element */
       dot.style.top = `${rect.top + y}px`;
       dot.style.left = `${rect.left + x}px`;
 
-      // Append the dot to the body
+      /* Append the dot to the body */
       win.document.body.appendChild(dot);
 
-      // Remove the dot after 3 seconds
+      /* Remove the dot after 3 seconds */
       setTimeout(() => {
         dot.remove();
       }, 3000);
@@ -90,17 +91,10 @@ describe('Bug Smasher Canvas Automation', () => {
       const canvasX = canvasRect.x;
       const canvasY = canvasRect.y;
 
-      const left = canvasRect.left;   // 32
-      const top = canvasRect.top;     // 90
-      const right = canvasRect.right; // 992
-      const bottom = canvasRect.bottom; // 690
-
-      // Interact with the canvas element
-      // cy.get('canvas').click();
-
-      /* @hjsblogger - Check */
-      // const canvasWidth = right - left;
-      // const canvasHeight = bottom - top;
+      const left = canvasRect.left;   /* 32 */
+      const top = canvasRect.top;     /* 90 */
+      const right = canvasRect.right; /* 992 */
+      const bottom = canvasRect.bottom; /* 690 */
 
       cy.log(`Canvas X: ${canvasX}, Canvas Y: ${canvasY}`);
 
@@ -125,15 +119,19 @@ describe('Bug Smasher Canvas Automation', () => {
       let canvasCenterY = (canvasDisplayedHeight / 2);
 
       let buttonXInCanvas = (canvasCenterX * 2);
-      let buttonYInCanvas = (canvasCenterY * 3);
+      /* This value also worked, but there is a better way out */
+      /* let buttonYInCanvas = (canvasCenterY * 3); */
+      let buttonYInCanvas = (canvasCenterY * 2)
 
-      // @hjsblogger - Click Working (1024 * 768)
-      //const buttonXInCanvas = 936;
-      // const buttonYInCanvas = 788 + 140;
+      /* @hjsblogger - Click Working (1024 * 768) */
+      /* const buttonXInCanvas = 936; */
+      /* const buttonYInCanvas = 788 + 140; */
 
-      // Apply scale factor
+      /* Apply scale factor */
       let buttonXInCanvasScaled = buttonXInCanvas * scaleFactor;
-      let buttonYInCanvasScaled = buttonYInCanvas * scaleFactor;
+      /* This value also worked, but there is a better way out */
+      /* let buttonYInCanvasScaled = buttonYInCanvas * scaleFactor; */
+      let buttonYInCanvasScaled = buttonYInCanvas;
 
       cy.log(`Button X (Scaled): ${buttonXInCanvasScaled}, 
           Button Y (Scaled): ${buttonYInCanvasScaled}`);
@@ -141,32 +139,33 @@ describe('Bug Smasher Canvas Automation', () => {
       /* Show Red Dot at the center of the canvas */
       cy.wrap($canvas)
       .then(() => {
-        // Show the dot at the clicked position
         cy.showClickCoordinates($canvas, canvasCenterX,
             canvasCenterY);
       });
 
-      cy.wait(1200); // Wait for the scroll to complete
+      cy.wait(1200);
 
       /* Position of the Play Now Button, it also depends on the viewport size */
       let clickX = canvasX + buttonXInCanvasScaled;
-      let clickY = canvasY + buttonYInCanvasScaled;
+      /* This value also worked, but there is a better way out */
+      /* let clickY = canvasY + buttonYInCanvasScaled; */
+      /* Double Center of CanvasY and negate top (89.5) from it */
+      let clickY = (buttonYInCanvasScaled - canvasY);
 
       cy.log(`Click X: ${clickX}, Click Y: ${clickY}`);
 
       /* Scroll into view and click at the calculated position inside the canvas */
       /* @hjsblogger - Check */
       // cy.get('canvas').scrollIntoView();
-      cy.wait(1200); // Wait for the scroll to complete
+      cy.wait(1200);
 
       cy.wrap($canvas)
-      .click(clickX, clickY, { force: true })
-      .then(() => {
-        // Show the dot at the clicked position
-        cy.showClickCoordinates($canvas, /* canvasOffset.left + */ clickX, /* canvasOffset.top + */ clickY);
+        .click(clickX, clickY, { force: true })
+        .then(() => {
+          cy.showClickCoordinates($canvas, clickX, clickY);
       });
 
-      cy.wait(2000); // Wait for the scroll to complete
+      cy.wait(1200);
 
       cy.log('Clicked Play Now button');
       
@@ -214,7 +213,7 @@ describe('Bug Smasher Canvas Automation', () => {
     /* Locate LinkedIn button and click on it */
     cy.get('#unity-container > div.share-list > a.li-h').click();
 
-    // Verify that window.open was called with a URL containing 'linkedin.com'
+    /* Verify that window.open was called with a URL containing 'linkedin.com' */
     cy.get('@windowOpen').should('be.calledWith', 
         Cypress.sinon.match.string.and(Cypress.sinon.match('linkedin.com')));
 
