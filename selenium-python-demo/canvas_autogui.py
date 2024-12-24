@@ -30,8 +30,6 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         WebDriverWait(self.driver, iWaitTime).until(lambda d: 
                 d.execute_script("return document.readyState") == "complete")
 
-        # time.sleep(iWaitTime)
-
     def test_canvas_automation(self):
         driver = self.driver
         try:
@@ -72,13 +70,6 @@ class TestCanvasGraphAutomation(unittest.TestCase):
 
         time.sleep(iWaitTime)
 
-        # Define actual canvas width (in pixels) and calculate the scale factor
-        canvas_actual_width = (canvas_width * 2)
-        canvas_actual_height = (canvas_height * 2)
-
-        # Find the scale factor
-        scale_factor = canvas_width / canvas_actual_width
-
         # Calculate the center coordinates of the canvas
         canvas_center_x = canvas_width / 2
         canvas_center_y = canvas_height / 2
@@ -87,7 +78,6 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         print(f"Canvas center height: {canvas_center_y}")
 
         # Coordinates for the button within the canvas (substitute with actual button coordinates)
-        # Working
         button_x_in_canvas = 600  # example x position within canvas
         button_y_in_canvas = 620  # example y position within canvas
 
@@ -95,17 +85,10 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         absolute_x = canvas_x + button_x_in_canvas
         absolute_y = canvas_y + button_y_in_canvas
 
-        canvasDisplayedWidth = canvas_properties['width']
-        canvasDisplayedHeight = canvas_properties['height']
-
-        # time.sleep(iWaitTime)
-
         show_click_coordinates(self.driver, canvas_elem, absolute_x, absolute_y)
 
         # Perform the click with PyAutoGUI at the calculated coordinates
         pyautogui.click(absolute_x, absolute_y)
-
-        # time.sleep(iWaitTime)
 
         # Perform 60 random clicks inside the canvas
         for i in range(60):
@@ -127,23 +110,12 @@ class TestCanvasGraphAutomation(unittest.TestCase):
 
         status = "passed"
 
-        # Update status on LambdaTest dashboard
-        self.update_lambdatest_status(status=status)
+        # Update test status
+        self.update_test_status(status=status)
 
         time.sleep(2)
 
-    def update_lambdatest_status(self, status):
-        """
-        Update the test status on LambdaTest dashboard.
-        
-        Parameters:
-        status (str): "passed" or "failed"
-        """
-        # if status.lower() == "passed":
-        #     self.driver.execute_script("lambda-status=passed")
-        # else:
-        #     self.driver.execute_script("lambda-status=failed")
-
+    def update_test_status(self, status):
         self.driver.quit()
 
 # Run the test
