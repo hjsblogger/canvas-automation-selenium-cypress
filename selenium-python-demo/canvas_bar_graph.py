@@ -59,32 +59,6 @@ class TestCanvasGraphAutomation(unittest.TestCase):
 
     def test_canvas_automation(self):
         driver = self.driver
-        # Close the Chat button so that it does not hinder with the main page content
-        # try:
-        #     # Switch to iFrame
-        #     driver = self.driver
-        #     iframe_elem = WebDriverWait(driver, iFrameWaitTime).until(
-        #         EC.presence_of_element_located((By.ID, "hubspot-conversations-iframe"))
-        #     )
-
-        #     if iframe_elem:
-        #         # Close the chat window
-        #         driver.switch_to.frame(iframe_elem) 
-        #         button_elem = WebDriverWait(driver, iFrameWaitTime).until(
-        #             EC.presence_of_element_located((By.CSS_SELECTOR,
-        #                 "body > div.widget > div:nth-child(1) > div > div > button"))
-        #         )
-        #         print("Button Element found")
-        #         button_elem.click()
-        #         time.sleep(iSmallWaitTime)
-        # except Exception as e:
-        #     print("Button Element not found:", e)
-        #     status = "failed"
-        #     self.update_lambdatest_status(status=status)
-
-        # # Switch back to the main document (parent frame)
-        # driver.switch_to.default_content()
-
         # Scroll to the end and back so that the dynamic content is loaded on the page
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(2)
@@ -147,102 +121,31 @@ class TestCanvasGraphAutomation(unittest.TestCase):
         print(f"Canvas center height: {canvas_center_y}")
 
         # @hjsblogger - make this dynamic from the center of the canvas
-        # start_x_coord = 245
-        common_offset_value = 100
-        start_x_coord = (canvas_width / 4) - common_offset_value
-        start_y_coord = canvas_center_y
-
-        # Define the number of iterations and offset step
-        # January ~ August
-        num_clicks = 8
-        # x_offset_coord = 100
-        # y_offset_coord = 100
-        x_offset_coord = common_offset_value
-        y_offset_coord = common_offset_value
-
-        ############################ January - August ##########################################
-        for co_ord_value in range((num_clicks * x_offset_coord), 0, (-x_offset_coord)):
-            x_click_coord = start_x_coord - co_ord_value
-            y_click_coord = start_y_coord - y_offset_coord
-
-            # Move to the calculated offset, click, and perform the action
-            actions.move_to_element_with_offset(canvas_elem, x_click_coord, y_click_coord) \
-                    .click().perform()
-            
-            time.sleep(2)
-
-            # Call your function to show click coordinates
-            show_click_coordinates(self.driver, canvas_elem, x = x_click_coord, y = y_click_coord)
-
-            tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
-            if (tooltip_elem[1]):
-                print(tooltip_elem[1].text)
-
-            time.sleep(2)
-
-        # ############################ September #################################################
-        # x_click_coord = start_x_coord
-        # y_click_coord = start_y_coord - y_offset_coord
-
-        # actions.move_to_element_with_offset(canvas_elem, x_click_coord,
-        #         y_click_coord).click().perform()
-
-        # time.sleep(2)
-        # show_click_coordinates(self.driver, canvas_elem, x = x_click_coord,
-        #     y = y_click_coord)
-
-        # tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
-        # if (tooltip_elem[1]):
-        #     print(tooltip_elem[1].text)
-        # time.sleep(2)
-
-        ############################ September - November #########################################
-        # start_x_coord = 245
         x_offset_coord = 100
         y_offset_coord = 100
-        # x_end_coord = 400
-        num_clicks = 4
 
-        for cnt in range(1, num_clicks):
-            # Calculate new x and y offsets for this iteration
-            x_click_coord = (start_x_coord + (cnt * x_offset_coord))
-            y_click_coord = (start_y_coord - y_offset_coord)
-
+        for cnt in range(12, 0, -1):
             # Move to the calculated offset, click, and perform the action
-            actions.move_to_element_with_offset(canvas_elem, x_click_coord, y_click_coord) \
-                    .click().perform()
-            
-            time.sleep(2)
-
-            # Call your function to show click coordinates
-            show_click_coordinates(self.driver, canvas_elem, x = x_click_coord, y = y_click_coord)
-
-            tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
-            if (tooltip_elem[1]):
-                print(tooltip_elem[1].text)
-
-        ############################ December #########################################
-        # Move to the calculated offset, click, and perform the action
-        actions.move_to_element_with_offset(canvas_elem, (canvas_center_x - 100), (canvas_center_y - 100)) \
+            actions.move_to_element_with_offset(canvas_elem, (canvas_center_x - (cnt * x_offset_coord)), 
+                (canvas_center_y - y_offset_coord)) \
                 .click().perform()
         
-        time.sleep(2)
+            time.sleep(1)
 
-        # Call your function to show click coordinates
-        show_click_coordinates(self.driver, canvas_elem, x = (canvas_center_x - 100), y = (canvas_center_y - 100))
+            # Call your function to show click coordinates
+            show_click_coordinates(self.driver, canvas_elem, x = (canvas_center_x - (cnt * x_offset_coord)),
+                y = (canvas_center_y - y_offset_coord))
 
-        tooltip_elem = driver.find_elements(By.CLASS_NAME, "canvasjs-chart-tooltip")
-        if (tooltip_elem[1]):
-            print(tooltip_elem[1].text)
-
-        time.sleep(2)
+            tooltip_elem = canvas_elem.find_element(By.CLASS_NAME, "canvasjs-chart-tooltip")
+            if (tooltip_elem):
+                print(tooltip_elem.text)
 
         status = "passed"
 
         # Update status on LambdaTest dashboard
         self.update_lambdatest_status(status=status)
 
-        time.sleep(2)
+        time.sleep(1)
 
     def update_lambdatest_status(self, status):
         """
