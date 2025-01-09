@@ -1,5 +1,4 @@
 /* Customized command to show the click on the element */
-/* This helper was
 Cypress.Commands.add('showClickCoordinates', (element, x, y) => {
   cy.wrap(element).then(($el) => {
     /* Reference - https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect */
